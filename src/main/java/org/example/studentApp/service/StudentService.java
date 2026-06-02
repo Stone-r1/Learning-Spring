@@ -2,6 +2,8 @@ package org.example.studentApp.service;
 
 
 import org.example.studentApp.models.Student;
+import org.example.studentApp.models.requests.CreateStudentRequest;
+import org.example.studentApp.models.responses.StudentResponse;
 import org.example.studentApp.repository.StudentRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -28,37 +30,58 @@ public class StudentService {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
-    public Student createStudent(
+    private StudentResponse toResponse(
             Student student
     ) {
-        return studentRepository.save(student);
+        return new StudentResponse(
+                student.getId(),
+                student.getName(),
+                student.getCourse()
+        );
     }
 
-    public List<Student> getAllStudents() {
-        return studentRepository.findAll();
+    private List<StudentResponse> toResponse(
+            List<Student> students
+    ) {
+        return students.stream()
+                .map(this::toResponse)
+                .toList();
     }
 
-    public Student getStudentById(
+    public StudentResponse createStudent(
+            CreateStudentRequest studentRequest
+    ) {
+        Student student = new Student();
+        student.setName(studentRequest.name());
+        student.setCourse(studentRequest.course());
+        return toResponse(studentRepository.save(student));
+    }
+
+    public List<StudentResponse> getAllStudents() {
+        return toResponse(studentRepository.findAll());
+    }
+
+    public StudentResponse getStudentById(
             Long id
     ) {
-        return findByIdOrThrow(id);
+        return toResponse(findByIdOrThrow(id));
     }
 
-    public Student updateStudentById(
+    public StudentResponse updateStudentById(
             Long id,
-            Student student
+            CreateStudentRequest studentRequest
     ) {
         Student existing = findByIdOrThrow(id);
-        existing.setName(student.getName());
-        existing.setCourse(student.getCourse());
-        return studentRepository.save(existing);
+        existing.setName(studentRequest.name());
+        existing.setCourse(studentRequest.course());
+        return toResponse(studentRepository.save(existing));
     }
 
-    public Student deleteStudentById(
+    public StudentResponse deleteStudentById(
             Long id
     ) {
         Student student = findByIdOrThrow(id);
         studentRepository.delete(student);
-        return student;
+        return toResponse(student);
     }
 }
