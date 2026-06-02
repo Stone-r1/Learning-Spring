@@ -1,8 +1,8 @@
-package org.example.controller;
+package org.example.studentApp.controller;
 
 
-import org.example.models.Student;
-import org.example.service.StudentService;
+import org.example.studentApp.models.Student;
+import org.example.studentApp.service.StudentService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
