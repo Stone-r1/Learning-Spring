@@ -59,4 +59,20 @@ public class StudentService {
                         () -> new ResponseStatusException(HttpStatus.NOT_FOUND)
                 );
     }
+
+    public Student deleteStudentById(
+            Long id
+    ) {
+        Student student = students.stream()
+                .filter(
+                        s -> s.getId().equals(id)
+                ).findFirst()
+                .orElse(null);
+
+        if (student != null) {
+            students.remove(student);
+        }
+
+        return student;
+    }
 }
