@@ -1,6 +1,7 @@
 package org.example.studentApp.controller;
 
 
+import jakarta.validation.Valid;
 import org.example.studentApp.models.Student;
 import org.example.studentApp.service.StudentService;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +21,7 @@ public class StudentController {
 
     @PostMapping("/students")
     public Student createStudent(
-            @RequestBody Student student
+            @Valid @RequestBody Student student
     ) {
         return studentService.createStudent(student);
     }
@@ -30,22 +31,22 @@ public class StudentController {
         return studentService.getAllStudents();
     }
 
-    @GetMapping("/student/{id}")
+    @GetMapping("/students/{id}")
     public Student getStudentById(
             @PathVariable Long id
     ) {
         return studentService.getStudentById(id);
     }
 
-    @PutMapping("/student/{id}")
+    @PutMapping("/students/{id}")
     public Student updateStudentById(
             @PathVariable Long id,
-            @RequestBody Student student
+            @Valid @RequestBody Student student
     ) {
         return studentService.updateStudentById(id, student);
     }
 
-    @DeleteMapping("/student/{id}")
+    @DeleteMapping("/students/{id}")
     public Student deleteStudentById(
             @PathVariable Long id
     ) {
