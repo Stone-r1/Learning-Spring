@@ -84,4 +84,10 @@ public class StudentService {
         studentRepository.delete(student);
         return toResponse(student);
     }
+
+    public List<StudentResponse> getStudentsByCourse(
+            Long course
+    ) {
+        return toResponse(studentRepository.findByCourse(course));
+    }
 }
