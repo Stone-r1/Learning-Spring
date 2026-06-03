@@ -4,8 +4,9 @@ package org.example.universityApp.domain.studentService;
 import org.example.universityApp.application.student.CreateStudentRequest;
 import org.example.universityApp.application.student.GetStudentResponse;
 import org.example.universityApp.application.student.Student;
+import org.example.universityApp.domain.exceptions.StudentAlreadyExistsException;
 import org.example.universityApp.infrastructure.persistence.JpaStudentRepository;
-import org.example.universityApp.presentation.response.exceptions.StudentNotFoundException;
+import org.example.universityApp.domain.exceptions.StudentNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -37,19 +38,6 @@ public class StudentService {
         );
     }
 
-    private void updateStudent(
-            CreateStudentRequest createStudentRequest,
-            Student studentToUpdate
-    ) {
-        studentToUpdate.setFirstName(createStudentRequest.firstName());
-        studentToUpdate.setLastName(createStudentRequest.lastName());
-        studentToUpdate.setGovernmentId(createStudentRequest.governmentId());
-        studentToUpdate.setMobileNumber(createStudentRequest.mobileNumber());
-        studentToUpdate.setFaculty(createStudentRequest.faculty());
-        studentToUpdate.setAcademicYear(createStudentRequest.academicYear());
-        studentRepository.save(studentToUpdate);
-    }
-
     private void createStudent(
             CreateStudentRequest createStudentRequest
     ) {
@@ -70,7 +58,11 @@ public class StudentService {
         Optional<Student> student = studentRepository.findStudentByGovernmentId(createStudentRequest.governmentId());
 
         if (student.isPresent()) {
-            updateStudent(createStudentRequest, student.get());
+            throw new StudentAlreadyExistsException(
+                    "Student already present in the database. Either update the existing user with government id = "
+                            + createStudentRequest.governmentId()
+                            + " create new one with unique government id"
+            );
         } else {
             createStudent(createStudentRequest);
         }
@@ -81,7 +73,9 @@ public class StudentService {
     ) {
         return toStudentResponse(
                 studentRepository.findStudentByGovernmentId(governmentId)
-                        .orElseThrow(() -> new StudentNotFoundException("Could not fetch student as student is not registered in database"))
+                        .orElseThrow(() -> new StudentNotFoundException(
+                                "Could not fetch student as student is not registered in database"
+                        ))
         );
     }
 }

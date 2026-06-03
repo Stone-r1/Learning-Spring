@@ -1,7 +1,8 @@
 package org.example.universityApp.presentation.response.exceptionHandlers;
 
 
-import org.example.universityApp.presentation.response.exceptions.StudentNotFoundException;
+import org.example.universityApp.domain.exceptions.StudentAlreadyExistsException;
+import org.example.universityApp.domain.exceptions.StudentNotFoundException;
 import org.example.universityApp.presentation.response.models.ErrorMessage;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -25,6 +26,21 @@ public class StudentExceptionsHandler {
                 HttpStatus.NOT_FOUND.value(),
                 new Date(),
                 studentNotFoundException.getMessage(),
+                webRequest.getDescription(false)
+        );
+    }
+
+
+    @ExceptionHandler(StudentAlreadyExistsException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ErrorMessage studentAlreadyExistsException(
+            StudentAlreadyExistsException studentAlreadyExistsException,
+            WebRequest webRequest
+    ) {
+        return new ErrorMessage(
+                HttpStatus.CONFLICT.value(),
+                new Date(),
+                studentAlreadyExistsException.getMessage(),
                 webRequest.getDescription(false)
         );
     }
