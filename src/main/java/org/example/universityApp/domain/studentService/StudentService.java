@@ -2,8 +2,10 @@ package org.example.universityApp.domain.studentService;
 
 
 import org.example.universityApp.application.student.CreateStudentRequest;
+import org.example.universityApp.application.student.GetStudentResponse;
 import org.example.universityApp.application.student.Student;
 import org.example.universityApp.infrastructure.persistence.JpaStudentRepository;
+import org.example.universityApp.presentation.response.exceptions.StudentNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -19,6 +21,20 @@ public class StudentService {
             JpaStudentRepository studentRepository
     ) {
         this.studentRepository = studentRepository;
+    }
+
+    private GetStudentResponse toStudentResponse(
+            Student student
+    ) {
+        return new GetStudentResponse(
+                student.getGovernmentId(),
+                student.getFirstName(),
+                student.getLastName(),
+                student.getAcademicYear(),
+                student.getFaculty(),
+                student.getMobileNumber(),
+                student.getGpa()
+        );
     }
 
     private void updateStudent(
@@ -58,5 +74,14 @@ public class StudentService {
         } else {
             createStudent(createStudentRequest);
         }
+    }
+
+    public GetStudentResponse getStudent(
+            String governmentId
+    ) {
+        return toStudentResponse(
+                studentRepository.findStudentByGovernmentId(governmentId)
+                        .orElseThrow(() -> new StudentNotFoundException("Could not fetch student as student is not registered in database"))
+        );
     }
 }

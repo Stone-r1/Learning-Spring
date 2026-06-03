@@ -1,13 +1,11 @@
-package org.example.universityApp.presentation;
+package org.example.universityApp.presentation.controllers;
 
 
 import jakarta.validation.Valid;
 import org.example.universityApp.application.student.CreateStudentRequest;
+import org.example.universityApp.application.student.GetStudentResponse;
 import org.example.universityApp.domain.studentService.StudentService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 @RestController
@@ -26,5 +24,12 @@ public class StudentController {
             @Valid @RequestBody CreateStudentRequest createStudentRequest
     ) {
         studentService.addStudent(createStudentRequest);
+    }
+
+    @GetMapping("/get/{government_id}")
+    public GetStudentResponse getStudent(
+            @PathVariable("government_id") String governmentId
+    ) {
+        return studentService.getStudent(governmentId);
     }
 }

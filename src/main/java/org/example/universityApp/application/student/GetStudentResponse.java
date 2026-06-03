@@ -2,7 +2,7 @@ package org.example.universityApp.application.student;
 
 
 public record GetStudentResponse(
-        Long id,
+        String governmentId,
         String firstName,
         String lastName,
         Short academicYear,
