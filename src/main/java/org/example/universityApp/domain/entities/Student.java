@@ -1,7 +1,6 @@
-package org.example.universityApp.application.student;
+package org.example.universityApp.domain.entities;
 
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;

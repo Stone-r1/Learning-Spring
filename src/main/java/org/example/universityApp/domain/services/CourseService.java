@@ -1,7 +1,7 @@
 package org.example.universityApp.domain.services;
 
 
-import org.example.universityApp.application.course.Course;
+import org.example.universityApp.domain.entities.Course;
 import org.example.universityApp.application.course.CreateCourseRequest;
 import org.example.universityApp.application.course.GetCoursesResponse;
 import org.example.universityApp.domain.exceptions.UniversityExceptions;

@@ -3,7 +3,7 @@ package org.example.universityApp.domain.services;
 
 import org.example.universityApp.application.student.CreateStudentRequest;
 import org.example.universityApp.application.student.GetStudentResponse;
-import org.example.universityApp.application.student.Student;
+import org.example.universityApp.domain.entities.Student;
 import org.example.universityApp.domain.exceptions.UniversityExceptions;
 import org.example.universityApp.infrastructure.persistence.JpaStudentRepository;
 import org.springframework.stereotype.Service;

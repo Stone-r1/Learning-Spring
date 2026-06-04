@@ -1,10 +1,10 @@
 package org.example.universityApp.domain.services;
 
 
-import org.example.universityApp.application.course.Course;
+import org.example.universityApp.domain.entities.Course;
 import org.example.universityApp.application.enrollment.CreateEnrollmentRequest;
-import org.example.universityApp.application.enrollment.Enrollment;
-import org.example.universityApp.application.student.Student;
+import org.example.universityApp.domain.entities.Enrollment;
+import org.example.universityApp.domain.entities.Student;
 import org.example.universityApp.domain.exceptions.UniversityExceptions;
 import org.example.universityApp.infrastructure.persistence.JpaCourseRepository;
 import org.example.universityApp.infrastructure.persistence.JpaEnrollmentRepository;

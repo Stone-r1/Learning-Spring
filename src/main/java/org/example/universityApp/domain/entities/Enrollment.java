@@ -1,10 +1,8 @@
-package org.example.universityApp.application.enrollment;
+package org.example.universityApp.domain.entities;
 
 
 import jakarta.persistence.*;
 import lombok.Data;
-import org.example.universityApp.application.course.Course;
-import org.example.universityApp.application.student.Student;
 
 
 @Data

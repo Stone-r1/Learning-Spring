@@ -1,6 +1,6 @@
 package org.example.universityApp.infrastructure.persistence;
 
-import org.example.universityApp.application.course.Course;
+import org.example.universityApp.domain.entities.Course;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

@@ -1,4 +1,4 @@
-package org.example.universityApp.application.course;
+package org.example.universityApp.domain.entities;
 
 
 import jakarta.persistence.Entity;
