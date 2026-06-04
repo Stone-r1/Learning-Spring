@@ -4,7 +4,7 @@ package org.example.universityApp.domain.services;
 import org.example.universityApp.application.course.Course;
 import org.example.universityApp.application.course.CreateCourseRequest;
 import org.example.universityApp.application.course.GetCoursesResponse;
-import org.example.universityApp.domain.exceptions.CourseAlreadyExistsException;
+import org.example.universityApp.domain.exceptions.UniversityExceptions;
 import org.example.universityApp.infrastructure.persistence.JpaCourseRepository;
 import org.springframework.stereotype.Service;
 
@@ -31,21 +31,13 @@ public class CourseService {
         );
     }
 
-    private List<GetCoursesResponse> toResponse(
-            List<Course> createCourseRequest
-    ) {
-        return createCourseRequest.stream()
-                .map(this::toResponse)
-                .toList();
-    }
-
     public void addCourse(
             CreateCourseRequest createCourseRequest
     ) {
         Optional<Course> course = courseRepository.findCourseByCode(createCourseRequest.code());
 
         if (course.isPresent()) {
-            throw new CourseAlreadyExistsException(
+            throw new UniversityExceptions.CourseAlreadyExistsException(
                     "Course with code " + createCourseRequest.code() + " already exists"
             );
         } else {
@@ -59,6 +51,9 @@ public class CourseService {
     }
 
     public List<GetCoursesResponse> getAllCourses() {
-        return toResponse(courseRepository.findAll());
+        return courseRepository.findAll()
+                .stream()
+                .map(this::toResponse)
+                .toList();
     }
 }

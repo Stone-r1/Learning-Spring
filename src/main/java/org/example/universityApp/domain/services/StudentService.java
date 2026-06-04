@@ -4,9 +4,8 @@ package org.example.universityApp.domain.services;
 import org.example.universityApp.application.student.CreateStudentRequest;
 import org.example.universityApp.application.student.GetStudentResponse;
 import org.example.universityApp.application.student.Student;
-import org.example.universityApp.domain.exceptions.StudentAlreadyExistsException;
+import org.example.universityApp.domain.exceptions.UniversityExceptions;
 import org.example.universityApp.infrastructure.persistence.JpaStudentRepository;
-import org.example.universityApp.domain.exceptions.StudentNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -58,7 +57,7 @@ public class StudentService {
         Optional<Student> student = studentRepository.findStudentByGovernmentId(createStudentRequest.governmentId());
 
         if (student.isPresent()) {
-            throw new StudentAlreadyExistsException(
+            throw new UniversityExceptions.StudentAlreadyExistsException(
                     "Student already present in the database. Either update the existing user with government id = "
                             + createStudentRequest.governmentId()
                             + " create new one with unique government id"
@@ -73,7 +72,7 @@ public class StudentService {
     ) {
         return toStudentResponse(
                 studentRepository.findStudentByGovernmentId(governmentId)
-                        .orElseThrow(() -> new StudentNotFoundException(
+                        .orElseThrow(() -> new UniversityExceptions.StudentNotFoundException(
                                 "Could not fetch student as student is not registered in database"
                         ))
         );

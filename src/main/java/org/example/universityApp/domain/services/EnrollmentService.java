@@ -5,9 +5,7 @@ import org.example.universityApp.application.course.Course;
 import org.example.universityApp.application.enrollment.CreateEnrollmentRequest;
 import org.example.universityApp.application.enrollment.Enrollment;
 import org.example.universityApp.application.student.Student;
-import org.example.universityApp.domain.exceptions.CourseNotFoundException;
-import org.example.universityApp.domain.exceptions.EnrollmentAlreadyExistsException;
-import org.example.universityApp.domain.exceptions.StudentNotFoundException;
+import org.example.universityApp.domain.exceptions.UniversityExceptions;
 import org.example.universityApp.infrastructure.persistence.JpaCourseRepository;
 import org.example.universityApp.infrastructure.persistence.JpaEnrollmentRepository;
 import org.example.universityApp.infrastructure.persistence.JpaStudentRepository;
@@ -37,7 +35,7 @@ public class EnrollmentService {
     ) {
         return studentRepository.findStudentByGovernmentId(governmentId)
                 .orElseThrow(() ->
-                        new StudentNotFoundException(
+                        new UniversityExceptions.StudentNotFoundException(
                                 "Student for government " + governmentId + " not found"
                         )
                 );
@@ -48,7 +46,7 @@ public class EnrollmentService {
     ) {
         return courseRepository.findCourseByCode(courseCode)
                 .orElseThrow(() ->
-                        new CourseNotFoundException(
+                        new UniversityExceptions.CourseNotFoundException(
                              "Course with code " + courseCode + " not found"
                         )
                 );
@@ -64,7 +62,7 @@ public class EnrollmentService {
                 enrollmentRepository.findEnrollmentByCourseAndStudent(course, student);
 
         if (enrollment.isPresent()) {
-            throw new EnrollmentAlreadyExistsException(
+            throw new UniversityExceptions.EnrollmentAlreadyExistsException(
                     "Enrollment form already exists"
             );
         } else {
