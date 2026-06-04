@@ -1,15 +1,13 @@
 package org.example.universityApp.application.enrollment;
 
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotNull;
-import org.example.universityApp.application.course.Course;
-import org.example.universityApp.application.student.Student;
+import jakarta.validation.constraints.NotBlank;
 
 
 public record CreateEnrollmentRequest(
-        @NotNull @Valid
-        Student student,
 
-        @NotNull @Valid
-        Course course
+        @NotBlank
+        String governmentId,
+
+        @NotBlank
+        String courseCode
 ) {}

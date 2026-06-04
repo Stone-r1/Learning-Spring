@@ -1,10 +1,16 @@
 package org.example.universityApp.domain.services;
 
 
+import org.example.universityApp.application.course.Course;
 import org.example.universityApp.application.enrollment.CreateEnrollmentRequest;
 import org.example.universityApp.application.enrollment.Enrollment;
+import org.example.universityApp.application.student.Student;
+import org.example.universityApp.domain.exceptions.CourseNotFoundException;
 import org.example.universityApp.domain.exceptions.EnrollmentAlreadyExistsException;
+import org.example.universityApp.domain.exceptions.StudentNotFoundException;
+import org.example.universityApp.infrastructure.persistence.JpaCourseRepository;
 import org.example.universityApp.infrastructure.persistence.JpaEnrollmentRepository;
+import org.example.universityApp.infrastructure.persistence.JpaStudentRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -13,18 +19,49 @@ import java.util.Optional;
 @Service
 public class EnrollmentService {
     private final JpaEnrollmentRepository enrollmentRepository;
+    private final JpaStudentRepository studentRepository;
+    private final JpaCourseRepository courseRepository;
 
     public EnrollmentService(
-            JpaEnrollmentRepository jpaEnrollmentRepository
+            JpaEnrollmentRepository jpaEnrollmentRepository,
+            JpaStudentRepository studentRepository,
+            JpaCourseRepository courseRepository
     ) {
         this.enrollmentRepository = jpaEnrollmentRepository;
+        this.studentRepository = studentRepository;
+        this.courseRepository = courseRepository;
+    }
+
+    private Student getStudent(
+            String governmentId
+    ) {
+        return studentRepository.findStudentByGovernmentId(governmentId)
+                .orElseThrow(() ->
+                        new StudentNotFoundException(
+                                "Student for government " + governmentId + " not found"
+                        )
+                );
+    }
+
+    private Course getCourse(
+            String courseCode
+    ) {
+        return courseRepository.findCourseByCode(courseCode)
+                .orElseThrow(() ->
+                        new CourseNotFoundException(
+                             "Course with code " + courseCode + " not found"
+                        )
+                );
     }
 
     public void createEnrollment(
             CreateEnrollmentRequest createEnrollmentRequest
     ) {
+        Course course = getCourse(createEnrollmentRequest.courseCode());
+        Student student = getStudent(createEnrollmentRequest.governmentId());
+
         Optional<Enrollment> enrollment =
-                enrollmentRepository.findEnrollmentByCourseAndStudent(createEnrollmentRequest.course(), createEnrollmentRequest.student());
+                enrollmentRepository.findEnrollmentByCourseAndStudent(course, student);
 
         if (enrollment.isPresent()) {
             throw new EnrollmentAlreadyExistsException(
@@ -32,8 +69,8 @@ public class EnrollmentService {
             );
         } else {
             Enrollment newEnrollment = new Enrollment();
-            newEnrollment.setCourse(createEnrollmentRequest.course());
-            newEnrollment.setStudent(createEnrollmentRequest.student());
+            newEnrollment.setCourse(course);
+            newEnrollment.setStudent(student);
             enrollmentRepository.save(newEnrollment);
         }
     }
