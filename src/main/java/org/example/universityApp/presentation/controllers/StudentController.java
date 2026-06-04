@@ -4,7 +4,9 @@ package org.example.universityApp.presentation.controllers;
 import jakarta.validation.Valid;
 import org.example.universityApp.application.student.CreateStudentRequest;
 import org.example.universityApp.application.student.GetStudentResponse;
-import org.example.universityApp.domain.studentService.StudentService;
+import org.example.universityApp.domain.services.StudentService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -20,10 +22,11 @@ public class StudentController {
     }
 
     @PostMapping("/add")
-    public void addStudent(
+    public ResponseEntity<String> addStudent(
             @Valid @RequestBody CreateStudentRequest createStudentRequest
     ) {
         studentService.addStudent(createStudentRequest);
+        return ResponseEntity.status(HttpStatus.CREATED).body("Student added successfully");
     }
 
     @GetMapping("/get/{government_id}")

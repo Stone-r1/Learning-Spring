@@ -1,4 +1,4 @@
-package org.example.universityApp.domain.studentService;
+package org.example.universityApp.domain.services;
 
 
 import org.example.universityApp.application.student.CreateStudentRequest;

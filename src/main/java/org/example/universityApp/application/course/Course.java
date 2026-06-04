@@ -1,14 +1,26 @@
 package org.example.universityApp.application.course;
 
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import lombok.Data;
 
 
 @Data
+@Entity
 public class Course {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String code; // SEC1 PROG1 etc
-    private String name; // full name
+
+    private String code;
+
+    private String name;
+
     private Integer credits;
+
     private Integer maxStudents;
 }
