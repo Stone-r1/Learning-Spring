@@ -21,10 +21,17 @@ public class UserService {
         return userRepository.findByUsername(username).isPresent();
     }
 
-    public void registerUser(
+    public String registerUser(
             User user
     ) {
+        if (isUsernameTaken(user.getUsername())) {
+            throw new AuthenticationExceptions.UserAlreadyExistsException(
+                    "Username " + user.getUsername() + " is already taken"
+            );
+        }
+
         userRepository.save(user);
+        return "Registration successful";
     }
 
     public User getUserByUsername(

@@ -8,6 +8,7 @@ import org.example.universityApp.domain.models.shared.Role;
 
 @Data
 @Entity
+@Table(name = "users")
 public class User {
 
     @Id

@@ -7,10 +7,10 @@ import org.springframework.stereotype.Service;
 
 
 @Service
-public class UserUseCase {
+public class AuthenticationUseCase {
     private final UserService userService;
 
-    public UserUseCase(
+    public AuthenticationUseCase(
             UserService userService
     ) {
         this.userService = userService;
@@ -26,10 +26,10 @@ public class UserUseCase {
         return user;
     }
 
-    public void registerUser(
+    public String registerUser(
             RegisterUserRequest request
     ) {
-        userService.registerUser(buildUser(request.username(), request.password()));
+        return userService.registerUser(buildUser(request.username(), request.password()));
     }
 
     public String loginUser(
