@@ -30,7 +30,7 @@ public class StudentUseCase {
         student.setFaculty(request.faculty());
         student.setAcademicYear(request.academicYear());
         student.setGpa(StudentConstants.DEFAULT_GPA);
-        studentService.addStudent(request);
+        studentService.addStudent(student);
     }
 
     public Student getStudentByGovernmentId(
