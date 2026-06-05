@@ -39,7 +39,7 @@ public class UserService {
         );
 
         userRepository.save(user);
-        return "Registration successful";
+        return "User registered successfully";
     }
 
     public User getUserByUsername(
@@ -52,7 +52,7 @@ public class UserService {
         );
     }
 
-    public String loginUser(
+    public void loginUser(
             User user
     ) {
         User foundUser = getUserByUsername(user.getUsername());
@@ -62,8 +62,5 @@ public class UserService {
                     "Invalid credentials provided"
             );
         }
-
-        // temporary implementation, in a real application we would return a JWT token or similar
-        return "Login successful";
     }
 }

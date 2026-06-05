@@ -10,11 +10,14 @@ import org.springframework.stereotype.Service;
 @Service
 public class AuthenticationUseCase {
     private final UserService userService;
+    private final TokenService tokenService;
 
     public AuthenticationUseCase(
-            UserService userService
+            UserService userService,
+            TokenService tokenService
     ) {
         this.userService = userService;
+        this.tokenService = tokenService;
     }
 
     private User buildUser(
@@ -46,12 +49,14 @@ public class AuthenticationUseCase {
     public String loginUser(
             LoginUserRequest request
     ) {
-        return userService.loginUser(
-                buildUser(
-                        request.username(),
-                        request.password(),
-                        Role.STUDENT
-                )
+        User user = buildUser(
+                request.username(),
+                request.password(),
+                Role.STUDENT
         );
+
+        userService.loginUser(user);
+
+        return tokenService.generateToken(user);
     }
 }
