@@ -17,6 +17,12 @@ public class StudentService {
     public void addStudent(
             Student createStudentRequest
     ) {
+        if (studentRepository.findStudentByGovernmentId(createStudentRequest.getGovernmentId()).isPresent()) {
+            throw new UniversityExceptions.StudentAlreadyExistsException(
+                    "Student with government id " + createStudentRequest.getGovernmentId() + " already exists"
+            );
+        }
+
         studentRepository.save(createStudentRequest);
     }
 

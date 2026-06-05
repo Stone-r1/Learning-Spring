@@ -6,8 +6,6 @@ import org.example.universityApp.domain.models.entities.Student;
 import org.example.universityApp.domain.services.StudentService;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 
 @Service
 public class StudentUseCase {
@@ -22,7 +20,7 @@ public class StudentUseCase {
     public void createStudent(
             CreateStudentRequest request
     ) {
-        Student student = studentService.getStudentByGovernmentId(request.governmentId());
+        Student student = new Student();
         student.setFirstName(request.firstName());
         student.setLastName(request.lastName());
         student.setGovernmentId(request.governmentId());
