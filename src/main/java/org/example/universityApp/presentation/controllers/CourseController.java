@@ -16,14 +16,11 @@ import java.util.List;
 @RestController
 @RequestMapping("/courses")
 public class CourseController {
-    private final CourseService courseService;
     private final CourseUseCase courseUseCase;
 
     public CourseController(
-            CourseService courseService,
             CourseUseCase courseUseCase
     ) {
-        this.courseService = courseService;
         this.courseUseCase = courseUseCase;
     }
 
@@ -32,7 +29,7 @@ public class CourseController {
             @Valid @RequestBody CreateCourseRequest createCourseRequest
     ) {
 
-        courseService.addCourse(courseUseCase.createCourseFromResponse(createCourseRequest));
+        courseUseCase.createCourseFromResponse(createCourseRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body("Course added successfully");
     }
 

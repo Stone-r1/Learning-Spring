@@ -18,17 +18,29 @@ public class CourseService {
         this.courseRepository = courseRepository;
     }
 
-    public Course addCourse(
-            Course course
+    public void createCourse(
+            Course createCourseRequest
     ) {
-        Optional<Course> existingCourse = courseRepository.findCourseByCode(course.getCode());
-        if (existingCourse.isPresent()) {
+        Optional<Course> course = courseRepository.findCourseByCode(createCourseRequest.getCode());
+
+        if (course.isPresent()) {
             throw new UniversityExceptions.CourseAlreadyExistsException(
-                    "Course with code " + course.getCode() + " already exists"
+                    "Course with code " + createCourseRequest.getCode() + " already exists"
             );
         }
 
-        return courseRepository.save(course);
+        courseRepository.save(createCourseRequest);
+    }
+
+    public Course getCourseByCode(
+            String courseCode
+    ) {
+        return courseRepository.findCourseByCode(courseCode)
+                .orElseThrow(() ->
+                        new UniversityExceptions.CourseNotFoundException(
+                                "Course with code " + courseCode + " not found"
+                        )
+                );
     }
 
     public List<Course> getAllCourses() {

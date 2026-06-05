@@ -34,13 +34,13 @@ public class EnrollmentRepositoryAdapter implements EnrollmentRepository {
             Course course,
             Student student
     ) {
-        return Optional.empty();
+        return enrollmentRepository.findEnrollmentByCourseAndStudent(course, student);
     }
 
     @Override
     public Enrollment save(
             Enrollment enrollment
     ) {
-        return null;
+        return enrollmentRepository.save(enrollment);
     }
 }

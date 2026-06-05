@@ -3,7 +3,7 @@ package org.example.universityApp.presentation.controllers;
 
 import jakarta.validation.Valid;
 import org.example.universityApp.application.enrollment.CreateEnrollmentRequest;
-import org.example.universityApp.domain.services.EnrollmentService;
+import org.example.universityApp.application.enrollment.EnrollmentUseCase;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,19 +15,19 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/enrollments")
 public class EnrollmentController {
-    private final EnrollmentService enrollmentService;
+    private final EnrollmentUseCase enrollmentUseCase;
 
     public EnrollmentController(
-            EnrollmentService enrollmentService
+            EnrollmentUseCase enrollmentUseCase
     ) {
-        this.enrollmentService = enrollmentService;
+        this.enrollmentUseCase = enrollmentUseCase;
     }
 
     @PostMapping("/create")
     public ResponseEntity<String> createEnrollment(
             @Valid @RequestBody CreateEnrollmentRequest createEnrollmentRequest
     ) {
-        enrollmentService.createEnrollment(createEnrollmentRequest);
+        enrollmentUseCase.createEnrollment(createEnrollmentRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body("Enrollment created successfully");
     }
 }

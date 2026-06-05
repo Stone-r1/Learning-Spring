@@ -23,18 +23,18 @@ public class CourseRepositoryAdapter implements CourseRepository {
     public Optional<Course> findCourseByCode(
             String courseCode
     ) {
-        return Optional.empty();
+        return courseRepository.findCourseByCode(courseCode);
     }
 
     @Override
     public List<Course> findAll() {
-        return List.of();
+        return courseRepository.findAll();
     }
 
     @Override
     public Course save(
             Course course
     ) {
-        return null;
+        return courseRepository.save(course);
     }
 }

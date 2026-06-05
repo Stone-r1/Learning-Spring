@@ -65,14 +65,13 @@ public class StudentService {
         }
     }
 
-    public GetStudentResponse getStudent(
+    public Student getStudentByGovernmentId(
             String governmentId
     ) {
-        return toStudentResponse(
-                studentRepository.findStudentByGovernmentId(governmentId)
+        return studentRepository.findStudentByGovernmentId(governmentId)
                         .orElseThrow(() -> new UniversityExceptions.StudentNotFoundException(
                                 "Could not fetch student as student is not registered in database"
-                        ))
+                        )
         );
     }
 }

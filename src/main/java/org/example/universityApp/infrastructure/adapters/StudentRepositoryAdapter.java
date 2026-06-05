@@ -23,13 +23,13 @@ public class StudentRepositoryAdapter implements StudentRepository {
     public Optional<Student> findStudentByGovernmentId(
             String governmentId
     ) {
-        return Optional.empty();
+        return studentRepository.findStudentByGovernmentId(governmentId);
     }
 
     @Override
     public Student save(
             Student student
     ) {
-        return null;
+        return studentRepository.save(student);
     }
 }

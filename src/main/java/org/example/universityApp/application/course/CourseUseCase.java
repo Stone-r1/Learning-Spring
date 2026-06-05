@@ -17,7 +17,7 @@ public class CourseUseCase {
         this.courseService = courseService;
     }
 
-    public Course createCourseFromResponse(
+    public void createCourseFromResponse(
             CreateCourseRequest request
     ) {
         Course course = new Course();
@@ -25,7 +25,7 @@ public class CourseUseCase {
         course.setCode(request.code());
         course.setCredits(request.credits());
         course.setMaxStudents(request.maxStudents());
-        return courseService.addCourse(course);
+        courseService.createCourse(course);
     }
 
     public List<GetCoursesResponse> createCourseResponseList(

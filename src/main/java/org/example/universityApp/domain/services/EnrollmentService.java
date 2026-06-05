@@ -2,7 +2,6 @@ package org.example.universityApp.domain.services;
 
 
 import org.example.universityApp.domain.models.entities.Course;
-import org.example.universityApp.application.enrollment.CreateEnrollmentRequest;
 import org.example.universityApp.domain.models.entities.Enrollment;
 import org.example.universityApp.domain.models.entities.Student;
 import org.example.universityApp.domain.exceptions.UniversityExceptions;
@@ -51,10 +50,10 @@ public class EnrollmentService {
     }
 
     public void createEnrollment(
-            CreateEnrollmentRequest createEnrollmentRequest
+            Enrollment createEnrollmentRequest
     ) {
-        Course course = getCourse(createEnrollmentRequest.courseCode());
-        Student student = getStudent(createEnrollmentRequest.governmentId());
+        Course course = getCourse(createEnrollmentRequest.getCourse().getCode());
+        Student student = getStudent(createEnrollmentRequest.getStudent().getGovernmentId());
 
         Optional<Enrollment> enrollment =
                 enrollmentRepository.findEnrollmentByCourseAndStudent(course, student);
