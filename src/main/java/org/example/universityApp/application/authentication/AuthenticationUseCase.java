@@ -29,6 +29,8 @@ public class AuthenticationUseCase {
         return user;
     }
 
+    // Role is manually managed and injected in DB for professors and admins.
+    // This is a test application, so I'm not implementing role-based registration for professors and admins.
     public String registerUser(
             RegisterUserRequest request
     ) {
@@ -36,7 +38,7 @@ public class AuthenticationUseCase {
                 buildUser(
                         request.username(),
                         request.password(),
-                        request.role()
+                        Role.STUDENT
                 )
         );
     }
@@ -48,7 +50,7 @@ public class AuthenticationUseCase {
                 buildUser(
                         request.username(),
                         request.password(),
-                        Role.USER // role is not being checked during login, so we can set it to a default value
+                        Role.STUDENT
                 )
         );
     }
