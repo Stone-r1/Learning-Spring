@@ -11,7 +11,7 @@ import org.example.universityApp.domain.models.shared.Role;
 public class User {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(unique = true)

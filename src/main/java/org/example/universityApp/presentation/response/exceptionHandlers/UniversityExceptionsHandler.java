@@ -13,7 +13,7 @@ import java.util.Date;
 
 
 @RestControllerAdvice
-public class UniversityExceptionHandler {
+public class UniversityExceptionsHandler {
 
     @ExceptionHandler(DomainException.class)
     public ResponseEntity<ErrorMessage> handleDomainException(
