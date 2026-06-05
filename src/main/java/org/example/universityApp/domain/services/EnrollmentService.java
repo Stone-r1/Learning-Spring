@@ -6,26 +6,24 @@ import org.example.universityApp.application.enrollment.CreateEnrollmentRequest;
 import org.example.universityApp.domain.models.entities.Enrollment;
 import org.example.universityApp.domain.models.entities.Student;
 import org.example.universityApp.domain.exceptions.UniversityExceptions;
-import org.example.universityApp.infrastructure.persistence.JpaCourseRepository;
-import org.example.universityApp.infrastructure.persistence.JpaEnrollmentRepository;
-import org.example.universityApp.infrastructure.persistence.JpaStudentRepository;
-import org.springframework.stereotype.Service;
+import org.example.universityApp.domain.repositories.CourseRepository;
+import org.example.universityApp.domain.repositories.EnrollmentRepository;
+import org.example.universityApp.domain.repositories.StudentRepository;
 
 import java.util.Optional;
 
 
-@Service
 public class EnrollmentService {
-    private final JpaEnrollmentRepository enrollmentRepository;
-    private final JpaStudentRepository studentRepository;
-    private final JpaCourseRepository courseRepository;
+    private final EnrollmentRepository enrollmentRepository;
+    private final StudentRepository studentRepository;
+    private final CourseRepository courseRepository;
 
     public EnrollmentService(
-            JpaEnrollmentRepository jpaEnrollmentRepository,
-            JpaStudentRepository studentRepository,
-            JpaCourseRepository courseRepository
+            EnrollmentRepository enrollmentRepository,
+            StudentRepository studentRepository,
+            CourseRepository courseRepository
     ) {
-        this.enrollmentRepository = jpaEnrollmentRepository;
+        this.enrollmentRepository = enrollmentRepository;
         this.studentRepository = studentRepository;
         this.courseRepository = courseRepository;
     }

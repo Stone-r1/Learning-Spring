@@ -5,20 +5,18 @@ import org.example.universityApp.application.student.CreateStudentRequest;
 import org.example.universityApp.application.student.GetStudentResponse;
 import org.example.universityApp.domain.models.entities.Student;
 import org.example.universityApp.domain.exceptions.UniversityExceptions;
-import org.example.universityApp.infrastructure.persistence.JpaStudentRepository;
-import org.springframework.stereotype.Service;
+import org.example.universityApp.domain.repositories.StudentRepository;
 
 import java.util.Optional;
 
 import static org.example.universityApp.domain.constants.StudentConstants.*;
 
 
-@Service
 public class StudentService {
-    private final JpaStudentRepository studentRepository;
+    private final StudentRepository studentRepository;
 
     public StudentService(
-            JpaStudentRepository studentRepository
+            StudentRepository studentRepository
     ) {
         this.studentRepository = studentRepository;
     }

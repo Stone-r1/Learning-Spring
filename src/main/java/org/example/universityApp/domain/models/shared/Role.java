@@ -1,7 +1,7 @@
 package org.example.universityApp.domain.models.shared;
 
 
-public enum Roles {
+public enum Role {
     ADMIN,
     PROFESSOR,
     STUDENT,
