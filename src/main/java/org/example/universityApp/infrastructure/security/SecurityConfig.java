@@ -22,7 +22,10 @@ public class SecurityConfig {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth ->
-                        auth.anyRequest().permitAll()
+                        auth
+                                .requestMatchers("/auth/**").hasRole("ADMIN")
+                                .requestMatchers("/enrollments/**").hasRole("STUDENT")
+                                .anyRequest().permitAll()
                 ).build();
     }
 
