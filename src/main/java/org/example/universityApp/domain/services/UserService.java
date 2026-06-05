@@ -4,15 +4,19 @@ package org.example.universityApp.domain.services;
 import org.example.universityApp.domain.exceptions.AuthenticationExceptions;
 import org.example.universityApp.domain.models.entities.User;
 import org.example.universityApp.domain.repositories.UserRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 
 public class UserService {
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public UserService(
-            UserRepository userRepository
+            UserRepository userRepository,
+            PasswordEncoder passwordEncoder
     ) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public boolean isUsernameTaken(
@@ -29,6 +33,10 @@ public class UserService {
                     "Username " + user.getUsername() + " is already taken"
             );
         }
+
+        user.setPassword(
+                passwordEncoder.encode(user.getPassword())
+        );
 
         userRepository.save(user);
         return "Registration successful";
@@ -49,7 +57,7 @@ public class UserService {
     ) {
         User foundUser = getUserByUsername(user.getUsername());
 
-        if (!foundUser.getPassword().equals(user.getPassword())) {
+        if (!passwordEncoder.matches(user.getPassword(), foundUser.getPassword())) {
             throw new AuthenticationExceptions.InvalidCredentialsException(
                     "Invalid credentials provided"
             );
