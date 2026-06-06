@@ -3,6 +3,7 @@ package org.example.universityApp.application.course;
 import org.example.universityApp.domain.models.entities.Course;
 import org.example.universityApp.domain.services.CourseService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -17,6 +18,7 @@ public class CourseUseCase {
         this.courseService = courseService;
     }
 
+    @Transactional
     public void createCourseFromResponse(
             CreateCourseRequest request
     ) {
@@ -28,6 +30,7 @@ public class CourseUseCase {
         courseService.createCourse(course);
     }
 
+    @Transactional(readOnly = true)
     public List<GetCoursesResponse> createCourseResponseList(
     ) {
         return courseService.getAllCourses().stream()

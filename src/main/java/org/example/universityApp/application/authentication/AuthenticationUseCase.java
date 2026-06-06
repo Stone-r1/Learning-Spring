@@ -5,6 +5,7 @@ import org.example.universityApp.domain.models.entities.User;
 import org.example.universityApp.domain.models.shared.Role;
 import org.example.universityApp.domain.services.UserService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
 @Service
@@ -34,6 +35,7 @@ public class AuthenticationUseCase {
 
     // Role is manually managed and injected in DB for professors and admins.
     // This is a test application, so I'm not implementing role-based registration for professors and admins.
+    @Transactional
     public String registerUser(
             RegisterUserRequest request
     ) {
@@ -46,6 +48,7 @@ public class AuthenticationUseCase {
         );
     }
 
+    @Transactional(readOnly = true)
     public String loginUser(
             LoginUserRequest request
     ) {

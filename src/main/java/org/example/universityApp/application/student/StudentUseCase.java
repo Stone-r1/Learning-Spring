@@ -5,6 +5,7 @@ import org.example.universityApp.domain.constants.StudentConstants;
 import org.example.universityApp.domain.models.entities.Student;
 import org.example.universityApp.domain.services.StudentService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
 @Service
@@ -17,6 +18,7 @@ public class StudentUseCase {
         this.studentService = studentService;
     }
 
+    @Transactional
     public void createStudent(
             CreateStudentRequest request
     ) {
@@ -31,6 +33,7 @@ public class StudentUseCase {
         studentService.addStudent(student);
     }
 
+    @Transactional(readOnly = true)
     public Student getStudentByGovernmentId(
             String governmentId
     ) {

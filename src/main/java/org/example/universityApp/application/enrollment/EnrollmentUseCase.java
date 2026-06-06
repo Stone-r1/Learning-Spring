@@ -5,6 +5,7 @@ import org.example.universityApp.domain.services.CourseService;
 import org.example.universityApp.domain.services.EnrollmentService;
 import org.example.universityApp.domain.services.StudentService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
 @Service
@@ -23,6 +24,7 @@ public class EnrollmentUseCase {
         this.courseService = courseService;
     }
 
+    @Transactional
     public void createEnrollment(
             CreateEnrollmentRequest request
     ) {
