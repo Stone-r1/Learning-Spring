@@ -10,23 +10,28 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 
 @Configuration
 public class SecurityConfig {
     private final UserRepository userRepository;
+    private final JwtAuthFilter jwtAuthFilter;
     private static final Integer SECURITY_STRENGTH = 12;
 
     public SecurityConfig(
-            UserRepository userRepository
+            UserRepository userRepository,
+            JwtAuthFilter jwtAuthFilter
     ) {
         this.userRepository = userRepository;
+        this.jwtAuthFilter = jwtAuthFilter;
     }
 
     @Bean
@@ -35,11 +40,18 @@ public class SecurityConfig {
     ) {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
+                .sessionManagement(session ->
+                        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                )
                 .authorizeHttpRequests(auth ->
                         auth
-                                .requestMatchers("/enrollments/**").hasRole("STUDENT")
-                                .anyRequest().permitAll()
-                ).build();
+                                .requestMatchers("/auth/**").permitAll()
+                                .requestMatchers("/enrollments/**").hasRole("ADMIN")
+                                .anyRequest().authenticated()
+                )
+                .authenticationProvider(authenticationProvider())
+                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
+                .build();
     }
 
     @Bean

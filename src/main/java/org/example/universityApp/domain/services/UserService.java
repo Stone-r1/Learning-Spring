@@ -52,7 +52,7 @@ public class UserService {
         );
     }
 
-    public void loginUser(
+    public User loginUser(
             User user
     ) {
         User foundUser = getUserByUsername(user.getUsername());
@@ -62,5 +62,7 @@ public class UserService {
                     "Invalid credentials provided"
             );
         }
+
+        return foundUser;
     }
 }

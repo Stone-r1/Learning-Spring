@@ -55,8 +55,7 @@ public class AuthenticationUseCase {
                 Role.STUDENT
         );
 
-        userService.loginUser(user);
-
-        return tokenService.generateToken(user);
+        User authenticatedUser = userService.loginUser(user);
+        return tokenService.generateToken(authenticatedUser);
     }
 }
